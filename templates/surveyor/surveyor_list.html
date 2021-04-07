@@ -1,0 +1,182 @@
+{% include 'header.html' %}
+{% load static %}
+
+<div class="main-content" id="panel" style="margin-top:10px;">
+ {% if messages %}
+    <div class="messages" style="margin-right:32px;">
+    {% for message in messages %}
+        <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+    {% endfor %}
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="row container-fluid">
+    <div class="col-md-12" >
+        <div class="card">
+            <div class="card-header bg-primary">
+                <div class="row align-items-center">
+                    <h4 class="text-blod" style="padding-left:20px;">All Data Collectors</h4>
+                </div>
+
+                </div>
+
+
+    <div class="container-fluid" >
+        <div class="col-md-12 mt-2 mb-4">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="col-lg-offset-6">
+                    <a class="btn btn-primary btn-sm float-right" href="{% url 'surveyor_list' filter='active' %}">
+                        Active Data Collector
+                    </a>
+                    <a class="mr-2 btn btn-primary btn-sm float-right" href="{% url 'surveyor_list' filter='inactive' %}">
+                        InActive Data Collector
+                    </a>
+                    <a class="mr-2 btn btn-primary btn-sm float-right" href="{% url 'surveyor_list' filter='rejected' %}">
+                        Rejected Data Collector
+                    </a>
+
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-items-center table-flush" id="surveyorList">
+                <thead class="style1 navy-bg">
+                <tr>
+                    <th  data-sort="name">Sl no</th>
+                    <th  data-sort="name">Name</th>
+                    <th  data-sort="name">Email</th>
+                    <th  data-sort="name">Phone</th>
+                    <th  data-sort="name">Designation</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="list">
+
+                                {% for user in user %}
+                                <tr>
+                                    <th scope="row"><span class="name mb-0 text-sm">{{ forloop.counter }}</span></th>
+                                    <td>
+                                        <span class="status">{{ user.user.first_name }} {{ user.user.last_name }}</span><br>
+                                        <small style="color:#fff;background-color:#e8583f;border-radius: 10px;padding-left:5px;padding-right:5px;">{{ user.created_at }}</small>
+                                    </td>
+                                     <td>
+                                        <span class="status">{{ user.email }}</span><br>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ user.phone }}</span><br>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ user.designation }}</span>
+                                        <small>At your company</small>
+                                    </td>
+
+                                   <td style="width: 10%">
+                                            <div class="btn-group">
+                                                <a href="{% url 'view_surveyor' id=user.id %}" style="margin-right: 5px;"><button class="btn btn-primary fa fa-eye"></button></a>
+                                                {% if request.user.is_superuser %}
+                                                    <a href="{% url 'update_surveyor' id=user.id %}" style="margin-right: 5px;"><button class="btn btn-info fa fa-edit"></button></a>
+                                                    <a href="" data-toggle="modal" id="{{s.id}}" data-target="#surve_delete{{s.id}}"><button class="btn btn-danger fa fa-trash"></button></a>
+                                                {% endif %}
+
+                                                {% if request.user.user_info.first.role == 2  %}
+                                                    <a href="{% url 'update_surveyor' id=user.id %}" style="margin-right: 5px;"><button class="btn btn-info fa fa-edit"></button></a>
+                                                {% endif %}
+
+                                            </div>
+                                        </td>
+                                </tr>
+
+                                <div class="modal fade" id="surve_delete{{s.id}}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Are You Sure To Delete The Following Surveyor?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">{{ user.user.first_name }} {{ user.user.last_name }}</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                                <a class="btn btn-primary" href="{% url 'remove_surveyor' id=user.id %}">Confirm Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+    </div>
+{#                    <div class="card-footer py-4" style="margin-top:30px;">#}
+{#                      <nav aria-label="...">#}
+{#                         <div class="col-lg-offset-9">#}
+{#                            <div class="pagination">#}
+{#                                <span class="step-links">#}
+{#                                    {% if user.has_previous %}#}
+{#                                        <a href="?page=1">&laquo; first || </a>#}
+{#                                        <a href="?page={{ user.previous_page_number }}">previous</a>#}
+{#                                    {% endif %}#}
+{#                                    <span class="current">#}
+{#                                        Page {{ user.number }} of {{ user.paginator.num_pages }}.#}
+{#                                    </span>#}
+{#                                    {% if user.has_next %}#}
+{#                                        <a href="?page={{ user.next_page_number }}">next ||</a>#}
+{#                                        <a href="?page={{ user.paginator.num_pages }}">last &raquo;</a>#}
+{#                                    {% endif %}#}
+{#                                </span>#}
+{#                             </div>#}
+{#                          </div>#}
+{#                      </nav>#}
+{#                    </div>#}
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+
+{% include 'footer.html' %}
+
+<script>
+    $(document).ready(function (){
+         $('#surveyorList').DataTable(
+            {
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4]
+                        }
+                    },
+                ],
+                columns: [
+                    { "width": "1%" },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ]
+        });
+    })
+</script>

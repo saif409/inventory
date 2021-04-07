@@ -1,0 +1,273 @@
+{% include 'header.html' %}
+{% load static %}
+
+
+
+
+
+ <div class="main-content" id="panel" style="margin-top:10px;">
+     {% if messages %}
+        <div class="messages" style="margin:20px;">
+            {% for message in messages %}
+                <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6">
+      <div class="row">
+
+        <div class="col-xl-12 order-xl-1">
+          <div class="card">
+            <div class="card-header bg-primary">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3>Update Profile : {{ user.user.first_name }} {{ user.user.last_name }}</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <form method="POST">
+                  {% csrf_token %}
+                <h3>User information</h3>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-first-name">First Name</label>
+                        <input type="text" name="fname" id="input-first-name" pattern="[A-Za-z\d\,]{3,100}"
+                               title="First Name must be between 3 and 40 characters in length and contains only letters" class="form-control" value="{{ user.user.first_name }}" >
+                      </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-last-name">Last Name</label>
+                        <input type="text" name="lname" id="input-last-name" pattern="[A-Za-z\d\,]{3,100}"
+                               title="last Name must be between 3 and 40 characters in length and contains only letters" class="form-control" value="{{ user.user.last_name }}" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username">Graduation Subject</label>
+                        <input type="text" name="graduation_subject" id="input-username" class="form-control" value="{{ user.graduation_subject }}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">University</label>
+                        <input type="text" name="university" id="input-email" class="form-control" value="{{ user.university }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username">Skills</label>
+                        <input type="text" name="Skills" class="form-control" value="{{ user.Skills }}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Experience</label>
+                        <input type="text" name="experience" class="form-control" value="{{ user.experience }}">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-password">Password</label>
+                        <input type="text" name="password" id="input-password" class="form-control" value="">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-phone">Phone</label>
+                        <input type="text" name="phone" id="input-phone" pattern="[0-9]{11}"
+                               title="Phone number must be between 11 characters in length and contains only number" class="form-control" value="{{ user.phone}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <tr>
+                                <th>Status</th>
+                                <td>
+                                    <h6>Current :
+                                      <span class="text-success">
+                                          {% ifequal user.status 1 %}
+                                            Active
+                                          {% endifequal %}
+                                          {% ifequal user.status 2 %}
+                                            InActive
+                                          {% endifequal %}
+                                          {% ifequal user.status 3 %}
+                                            Rejected
+                                          {% endifequal %}
+                                      </span>
+                                    </h6>
+
+                                  <select name="status" class="form-control">
+
+                                        {% ifequal user.status 1 %}
+                                          <option value="1">Active</option>
+                                        {% else %}
+                                          <option value="1">Active</option>
+                                        {% endifequal %}
+
+                                        {% ifequal user.status 2 %}
+                                          <option value="2" selected>InActive</option>
+                                        {% else %}
+                                          <option value="2">InActive</option>
+                                        {% endifequal %}
+
+                                        {% ifequal user.status 3 %}
+                                          <option value="3" selected>Rejected</option>
+                                        {% else %}
+                                          <option value="3">Rejected</option>
+                                        {% endifequal %}
+
+                                    </select>
+                                </td>
+                            </tr>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <tr>
+                                <th>Role</th>
+                                <td>
+                                    <h6>Current :
+                                      <span class="text-success">
+                                          {% ifequal user.role 1 %}
+                                            Admin
+                                          {% endifequal %}
+                                          {% ifequal user.role 2 %}
+                                            Supervisor
+                                          {% endifequal %}
+                                          {% ifequal user.role 3 %}
+                                            User
+                                          {% endifequal %}
+                                      </span>
+                                    </h6>
+
+                                  <select name="role" id="" class="form-control">
+
+                                        {% ifequal user.role 1 %}
+                                        <option value="1" selected>Admin</option>
+                                        {% else %}
+                                        <option value="1">Admin</option>
+                                        {% endifequal %}
+
+                                        {% ifequal user.role 2 %}
+                                          <option value="2" selected>Supervisor</option>
+                                        {% else %}
+                                          <option value="2">Supervisor</option>
+                                        {% endifequal %}
+
+                                        {% ifequal user.role 3 %}
+                                        <option value="3" selected>User</option>
+                                        {% else %}
+                                        <option value="3">User</option>
+                                        {% endifequal %}
+
+                                    </select>
+                                </td>
+                            </tr>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-designation">Designation</label>
+                        <input type="text" name="designation" id="input-designation" pattern="[A-Za-z\d\,]{2,100}"
+                             title="desgination must be between 3 to 40 characters in length and contains string value" class="form-control" value="{{ user.designation}}">
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+
+                <hr class="my-4" />
+                <!-- Address -->
+                <h3>Contact information</h3>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-address">Address</label>
+                        <input id="input-address" name="address" pattern="[A-Za-z\d\,]{6,150}"
+                               title="Address contains only letters,number or periods" class="form-control" type="text" value="{{ user.address }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Country</label>
+                        <input type="text" name="country" id="input-country" pattern="[A-Za-z,]{2,100}"
+                               title="Country contains only letters" class="form-control" value="{{ user.country }}">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-division">Division</label>
+                        <input type="text" name="division" id="input-division" pattern="[A-Za-z,]{2,100}"
+                               title="Division contains only letters" class="form-control" value="{{ user.division }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-district">District</label>
+                        <input type="text" name="district" id="input-district"  pattern="[A-Za-z,]{2,100}"
+                               title="District contains only letters" class="form-control" value="{{ user.district }}" >
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-sub-district">Sub District</label>
+                        <input type="text" name="sub_district" id="input-sub-district" pattern="[A-Za-z\d\,]{2,100}"
+                               title="Sub District contains only letters,number or periods" class="form-control"  value="{{ user.sub_district }}" >
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-area">Area</label>
+                        <input type="text" name="area" id="input-area" pattern="[A-Za-z\d\,]{2,100}"
+                               title="Area contains only letters,number or periods" class="form-control" value="{{ user.area }}" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username">Description</label>
+                        <input type="text" name="description" class="form-control" value="{{ user.description }}">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <button class="btn btn-primary float-right" type="submit" style="">Update</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% include 'footer.html' %}

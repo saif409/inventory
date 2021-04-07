@@ -1,0 +1,198 @@
+{% include 'header.html' %}
+{% load static %}
+
+
+ <div class="main-content" id="panel" style="margin-top:40px;">
+     {% if messages %}
+        <div class="messages" style="margin:20px;">
+            {% for message in messages %}
+                <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6" style="padding-bottom: 100px;">
+      <div class="row">
+
+        <div class="col-xl-12 order-xl-1">
+          <div class="card">
+            <div class="card-header bg-primary">
+              <div class="row align-items-center">
+                  <h3>Add New Data Collector</h3>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                <h3>User information</h3>
+                  <hr class="my-4" />
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-first-name">First Name&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="fname" id="input-first-name" pattern="[A-Za-z\d\,]{2,100}"
+                               title="First Name must be between 3 and 40 characters in length and contains only letters" placeholder="First Name" class="form-control" required >
+                      </div>
+                    </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                        <label class="form-control-label" for="input-last-name">Last Name&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="lname" id="input-last-name" pattern="[A-Za-z\d\,]{2,100}"
+                               title="Last Name must be between 3 and 40 characters in length and contains only letters" placeholder="Last Name" class="form-control" required >
+                      </div>
+                      </div>.
+                  </div>
+                  </div>
+
+
+                  <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username">UserName&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="uname" id="input-username" class="form-control" placeholder="Username" required >
+                      </div>
+                    </div>
+                      <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-username">Email&nbsp;<span style="color:red;">*</span></label>
+                        <input type="email" name="email"  class="form-control" placeholder="Email" required >
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+
+                  <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-designation">Designation&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="designation" pattern="[A-Za-z\d\,]{3,100}"
+                               title="Designation must be between 3 and 40 characters in length and containing format string+string|number" id="input-designation" class="form-control" placeholder="Designation" required >
+                      </div>
+                    </div>
+                      <div class="col-lg-6">
+                        <div class="form-group">
+                        <label class="form-control-label" for="input-phone">Phone&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="phone" id="input-phone" pattern="[0-9]{11}"
+                               title="Phone number must be between 11 characters in length and contains only number" class="form-control" placeholder="Contact Number" required >
+                      </div>
+                      </div>
+                  </div>
+                  </div>
+                  <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-password">Password&nbsp;<span style="color:red;">*</span></label>
+                            <input type="password" name="password" id="input-password" class="form-control" placeholder="Enter A Password" required >
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" >Profile Picture&nbsp;<span style="color:red;">*</span></label>
+                            <input type="file" name="profile_picture" class="form-control"  required>
+                          </div>
+                        </div>
+                      </div>
+
+                     <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" >Graduation Subject&nbsp;<span style="color:red;">*</span></label>
+                            <input type="text" name="graduation_subject" class="form-control" placeholder="Graduation Subject" required >
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" >University&nbsp;<span style="color:red;">*</span></label>
+                            <input type="text" name="university" class="form-control"  required>
+                          </div>
+                        </div>
+                      </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" >Description&nbsp;<span style="color:red;">*</span></label>
+                            <textarea name="description" id="" cols="30" rows="1" class="form-control"></textarea>
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" >Experience&nbsp;<span style="color:red;">*</span></label>
+                            <input type="text" name="experience" class="form-control" placeholder="Experience" required>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+                <hr class="my-4" />
+                <!-- Address -->
+                <h3>Contact information</h3>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-address">Address&nbsp;<span style="color:red;">*</span></label>
+                        <input id="input-address" name="address" pattern="[A-Za-z\d\,]{6,150}"
+                               title="Address contains only letters,number or periods" class="form-control" type="text" placeholder="Address" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Country&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="country" id="input-country" pattern="[A-Za-z,]{2,100}"
+                               title="Country contains only letters" class="form-control" placeholder="Country" required>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-division">Division&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="division" id="input-division" pattern="[A-Za-z,]{2,100}"
+                               title="Division contains only letters" class="form-control" placeholder="Division" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-district">District&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="district" id="input-district" pattern="[A-Za-z,]{2,100}"
+                               title="District contains only letters" class="form-control" placeholder="District" required >
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-sub-district">Sub District&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="sub_district" id="input-sub-district" pattern="[A-Za-z\d\,]{2,100}"
+                               title="Sub District contains only letters,number or periods" class="form-control" placeholder="Sub District" required >
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-area">Area&nbsp;<span style="color:red;">*</span></label>
+                        <input type="text" name="area" id="input-area" pattern="[A-Za-z\d\,]{2,100}"
+                               title="Area contains only letters,number or periods" class="form-control" placeholder="Area" required >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4" />
+
+                  <button class="btn btn-primary float-right" type="submit" style="">Create Data Collector</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% include 'footer.html' %}

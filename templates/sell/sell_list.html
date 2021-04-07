@@ -1,0 +1,245 @@
+{% include 'header.html' %}
+{% load static %}
+
+<div class="main-content" id="panel" style="margin-top:10px;">
+    {% if messages %}
+    <div class="messages" style="margin-right:32px;">
+        {% for message in messages %}
+        <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="row container-fluid">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <div class="row align-items-center">
+                            <h4 class="text-blod" style="padding-left:20px;">Stock List</h4>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <div class="row align-items-center">
+                            <div class="col-12">
+                                <div class="col-lg-offset-6">
+
+                                    <a class="mr-2 btn btn-primary btn-sm float-right text-white" data-toggle="modal"
+                                       data-target="#exampleModal">
+                                        <i class="fa fa-plus-circle"></i> Add New Sell
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid mt-4">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush" id="list">
+                                <thead class="style1 navy-bg">
+                                <tr>
+                                    <th data-sort="name">Sl no</th>
+                                    <th data-sort="name">Add By User</th>
+                                    <th data-sort="name">Product Name</th>
+                                    <th data-sort="name">Quantity</th>
+                                    <th data-sort="name">Sell price</th>
+                                    <th data-sort="name">Total Sell Price</th>
+                                    <th data-sort="name">Total Buy Price</th>
+                                    <th data-sort="name">Profit</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="list">
+
+                                {% for obj in obj %}
+                                <tr>
+                                    <th scope="row"><span class="name mb-0 text-sm">{{ forloop.counter }}</span></th>
+                                    <td>
+                                        <span class="status">{{ obj.user }}</span><br>
+                                        <small style="color:#fff;background-color:#e8583f;border-radius: 10px;padding-left:5px;padding-right:5px;">{{ obj.created_date }}</small>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ obj.product_name }}</span><br>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ obj.quantity }}</span><br>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ obj.sell_price }}</span><br>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ obj.total_sell_price }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ obj.total_buy_price }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ obj.profit }}</span>
+                                    </td>
+
+                                    <td style="width: 10%">
+                                        <div class="btn-group">
+
+                                            <a href="" style="margin-right: 5px;" data-toggle="modal" data-target="#surve_update{{obj.id}}"><button class="btn btn-info fa fa-edit"></button>
+                                            </a>
+                                            <a href="" data-toggle="modal" id="{{s.id}}"
+                                               data-target="#surve_delete{{obj.id}}">
+                                                <button class="btn btn-danger fa fa-trash"></button>
+                                            </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <div class="modal fade" id="surve_delete{{obj.id}}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Are You Sure To Delete
+                                                    The Following Stock?</h5>
+                                                <button class="close" type="button" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">{{ obj.product_name }}<br>{{ obj.created_date }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                                <a class="btn btn-primary"
+                                                   href="{% url 'sell_remove' id=obj.id %}">Confirm Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="surve_update{{obj.id}}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h3>Update Stock</h3>
+                                                <button class="close" type="button" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <form action="{% url 'update_stock' id=obj.id %}" method="post">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <label class="form-control-label">Product
+                                                                    Name&nbsp;<span style="color:red;">*</span></label>
+                                                                <input type="text" name="product_name" class="form-control" value="{{ obj.product_name }}" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <label class="form-control-label">Quantity&nbsp;<span
+                                                                        style="color:red;">*</span></label>
+                                                                <input type="number" name="quantity"
+                                                                       class="form-control" value="{{ obj.quantity }}" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <label class="form-control-label">Unit Price&nbsp;<span
+                                                                        style="color:red;">*</span></label>
+                                                                <input type="number" name="unit_price"
+                                                                       class="form-control" value="{{ obj.unit_price }}" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <form action="{% url 'add_new_stock' %}" method="post">
+                            {% csrf_token %}
+                            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Add New Stock</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label">Product Name&nbsp;<span
+                                                                style="color:red;">*</span></label>
+                                                        <input type="text" name="product_name" class="form-control"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label">Quantity&nbsp;<span
+                                                                style="color:red;">*</span></label>
+                                                        <input type="number" name="quantity" class="form-control"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label">Unit Price&nbsp;<span
+                                                                style="color:red;">*</span></label>
+                                                        <input type="number" name="unit_price" class="form-control"
+                                                               required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+<script>
+    $(document).ready(function (){
+         $('#list').DataTable();
+    })
+</script>
+

@@ -1,0 +1,169 @@
+{% include 'header.html' %}
+{% load static %}
+{% if messages %}
+    <div class="messages" style="margin-right:32px;">
+    {% for message in messages %}
+        <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+    {% endfor %}
+    </div>
+{% endif %}
+
+<div class="row" style="margin-top:40px;">
+    <div class="col-lg-4">
+        <a href="{% url 'admin_home' %}">
+            <div class="widget style1 navy-bg">
+                <div class="row">
+                    <div class="col-4">
+                        <i class="fa fa-briefcase fa-5x"></i>
+                    </div>
+                    <div class="col-8 text-right">
+                        <span> Total Assign Data Collector</span>
+                        <h2 class="font-bold">{{ total_assign_data_collector }}</h2>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-lg-4">
+        <a href="{% url 'surveyor_list' filter='None' %}">
+        <div class="widget style1 lazur-bg">
+            <div class="row">
+                <div class="col-4">
+                    <i class="fa fa-users fa-5x"></i>
+                </div>
+                <div class="col-8 text-right">
+                    <span>Total Data Collector Created</span>
+                    <h2 class="font-bold">{{ total_data_collector }}</h2>
+                </div>
+            </div>
+        </div>
+        </a>
+    </div>
+
+    <div class="col-lg-4">
+        <a href="">
+        <div class="widget style1 yellow-bg">
+            <div class="row">
+                <div class="col-4">
+                    <i class="fa fa-envelope-o fa-5x"></i>
+                </div>
+                <div class="col-8 text-right">
+                    <span> Total Data Received </span>
+                    <h2 class="font-bold">{{ total_data_collect }}</h2>
+                </div>
+            </div>
+        </div>
+        </a>
+    </div>
+
+
+
+    <!--<div class="col-lg-4">-->
+        <!--<div class="widget style1 purple-bg">-->
+            <!--<div class="row">-->
+                <!--<div class="col-4">-->
+                    <!--<i class="fa fa-book fa-5x"></i>-->
+                <!--</div>-->
+                <!--<div class="col-8 text-right">-->
+                    <!--<span> Total Form Question Created</span>-->
+                    <!--<h2 class="font-bold">100</h2>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+
+
+<div class="row">
+    <div class="row container-fluid" style="margin-top:30px;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <h2 class="text-blod" style="padding-left:20px;">Recently Assigned Task</h2>
+                    </div>
+                </div>
+                <div class="container-fluid" style="margin-top:30px;">
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush" id="adminHome">
+                            <thead class="widget style1 navy-bg">
+                           <tr>
+                                    <th>SL</th>
+                                    <th>Company Name</th>
+                                    <th>Purpose Of Visit</th>
+                                    <th>Assign By</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            {% for data in data %}
+                                <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="" class="h6">{{ data.company_name }}</a> <br/>
+                                    <small style="color:#fff;background-color:#e8583f;border-radius: 10px;padding-left:5px;padding-right:5px;">{{ data.created_at }}</small>
+                                </td>
+                                <td>{{ data.service_category.name }}<br/>
+                                    <small>{{ data.address }}</small>
+
+                                </td>
+                                <td>{{ data.data_collector.user.username }}<br/>
+                                    <small>Assign By {{ data.assign_by }}</small>
+                                </td>
+                                <td>
+
+                                    <a href="{% url 'view_form' id=data.id %}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
+                                    {% if request.user.is_superuser %}
+                                        <a href="{% url 'form_delete' id=data.id %}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                    {% endif %}
+                                </td>
+
+
+                            </tr>
+                            {% endfor %}
+
+
+                        </table>
+                    </div>
+                </div>
+{#                <div class="card-footer py-4" style="margin-top:30px;">#}
+{#                      <nav aria-label="...">#}
+{#                         <div class="col-lg-offset-9">#}
+{#                            <div class="pagination">#}
+{#                                <span class="step-links">#}
+{#                                    {% if data.has_previous %}#}
+{#                                        <a href="?page=1">&laquo; first || </a>#}
+{#                                        <a href="?page={{ data.previous_page_number }}">previous</a>#}
+{#                                    {% endif %}#}
+{#                                    <span class="current">#}
+{#                                        Page {{ data.number }} of {{ data.paginator.num_pages }}.#}
+{#                                    </span>#}
+{#                                    {% if data.has_next %}#}
+{#                                        <a href="?page={{ data.next_page_number }}">next ||</a>#}
+{#                                        <a href="?page={{ data.paginator.num_pages }}">last &raquo;</a>#}
+{#                                    {% endif %}#}
+{#                                </span>#}
+{#                             </div>#}
+{#                          </div>#}
+{#                      </nav>#}
+{#                    </div>#}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% include 'footer.html' %}
+
+<script>
+    $(document).ready(function (){
+         $('#adminHome').DataTable(
+            { language: {
+                searchPlaceholder: "Search records",
+                search: "",
+              }
+        })
+    })
+</script>
