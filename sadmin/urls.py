@@ -32,6 +32,7 @@ urlpatterns = [
     path('update-stock/<int:id>/', views.Update.as_view(), name="update_stock"),
     path('sell-list/', views.sell_list, name="sell_list"),
     path('add_new_sells/', views.AddNewSells.as_view(), name="add_new_sells"),
+    path('sell_details/<int:id>/', views.sell_details, name="sell_details"),
     path('sell_remove/<int:id>/', views.sell_remove, name="sell_remove"),
 
 ]

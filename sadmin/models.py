@@ -72,6 +72,7 @@ class Sell(models.Model):
     buy_price = models.IntegerField()
     quantity = models.IntegerField()
     sell_price = models.IntegerField()
+    note = models.TextField(null=True, blank=True)
     created_date = models.DateField(auto_now_add=True)
     user = models.CharField(max_length=200)
     is_delete = models.BooleanField(default=False)

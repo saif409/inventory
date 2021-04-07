@@ -231,6 +231,10 @@
 
 <script>
     $(document).ready(function (){
-         $('#surveyorList').DataTable();
+         $('#surveyorList').DataTable(
+             {
+                "ordering": false
+            }
+         );
     })
 </script>

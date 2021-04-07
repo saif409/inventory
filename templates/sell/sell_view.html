@@ -16,7 +16,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary">
-                        <h3>Add New Sells</h3>
+                        <h3>Sells Details</h3>
                     </div>
                     <div class="card-body">
                         <form action="" method="post">
@@ -24,40 +24,40 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Product Name&nbsp;<span style="color:red;">*</span></label>
-                                        <input type="text" name="product_name" class="form-control" required>
+                                        <label class="form-control-label">Product Name</label>
+                                        <input type="text" name="product_name" class="form-control" value="{{obj.product_name}}" >
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Buy Price&nbsp;<span style="color:red;">*</span></label>
-                                        <input type="text" name="buy_price" class="form-control" required>
+                                        <label class="form-control-label">Buy Price</label>
+                                        <input type="text" name="buy_price" class="form-control" value="{{obj.buy_price}}">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">Quantity&nbsp;<span style="color:red;">*</span></label>
-                                        <input type="number" name="quantity" class="form-control" required>
+                                        <label class="form-control-label">Quantity</label>
+                                        <input type="number" name="quantity" class="form-control" value="{{obj.quantity}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label class="form-control-label">Sell Price&nbsp;<span style="color:red;">*</span></label>
-                                    <input type="number" name="sell_price" class="form-control" required>
+                                    <label class="form-control-label">Sell Price</label>
+                                    <input type="number" name="sell_price" class="form-control" value="{{obj.sell_price}}">
                                 </div>
                             </div>
                             </div>
                             <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="form-control-label">Note&nbsp;<span style="color:red;">*</span></label>
-                                    <input type="text" name="note" class="form-control">
+                                    <label class="form-control-label">Note</label>
+                                    <input type="text" name="note" class="form-control" value="{{obj.note}}">
                                 </div>
                             </div>
                         </div>
-                            <button type="submit" class="btn btn-primary">Save</button>
+
                         </form>
                     </div>
                 </div>

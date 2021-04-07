@@ -263,8 +263,17 @@ class AddNewSells(View):
         buy_price = request.POST.get("buy_price")
         quantity = request.POST.get("quantity")
         sell_price = request.POST.get("sell_price")
+        note = request.POST.get("note")
         user = request.user
-        obj = Sell(product_name=product_name,quantity=quantity,buy_price=buy_price,user=user,sell_price=sell_price)
+        obj = Sell(product_name=product_name,note=note,quantity=quantity,buy_price=buy_price,user=user,sell_price=sell_price)
         obj.save()
         messages.success(request, "Sells Added Successfully ")
         return redirect('sell_list')
+
+
+def sell_details(request, id):
+    obj = get_object_or_404(Sell, id=id)
+    context={
+        "obj":obj
+    }
+    return render(request, "sell/sell_view.html", context)
