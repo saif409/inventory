@@ -197,6 +197,12 @@ class AddNewStock(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def get(self, request):
+        context={
+            "isact_addnewstock":"active"
+        }
+        return render(request, "stock/add_new_stock.html", context)
+
     def post(self,request):
         product_name = request.POST.get("product_name")
         quantity = request.POST.get("quantity")
@@ -206,6 +212,7 @@ class AddNewStock(View):
         obj.save()
         messages.success(request, "Stock Added Successfully ")
         return redirect('stock_list')
+
 
 
 class Update(View):
@@ -224,7 +231,7 @@ class Update(View):
 
 
 def sell_list(request):
-    obj = Sell.objects.all().filter(is_delete=False)
+    obj = Sell.objects.all().filter(is_delete=False)[::-1]
     context={
         "obj":obj,
         "isact_sellslist":"active"
@@ -238,3 +245,26 @@ def sell_remove(request, id):
     obj.save()
     messages.success(request, "Sell Remove successfully!!")
     return redirect('sell_list')
+
+
+class AddNewSells(View):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        context={
+            "isact_addnewsells":"active"
+        }
+        return render(request, "sell/add_new_sells.html", context)
+
+    def post(self,request):
+        product_name = request.POST.get("product_name")
+        buy_price = request.POST.get("buy_price")
+        quantity = request.POST.get("quantity")
+        sell_price = request.POST.get("sell_price")
+        user = request.user
+        obj = Sell(product_name=product_name,quantity=quantity,buy_price=buy_price,user=user,sell_price=sell_price)
+        obj.save()
+        messages.success(request, "Sells Added Successfully ")
+        return redirect('sell_list')
