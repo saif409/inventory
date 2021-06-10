@@ -44,7 +44,8 @@ def admin_home(request):
         total_user = Surveyor.objects.all().count()
         total_stock = Stock.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
         total_sell = Sell.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
-        stock = total_stock - total_sell
+
+        stock = int(total_stock - total_sell)
 
         daily_stock = Stock.objects.all().filter(created_date=day).aggregate(Sum('quantity'))['quantity__sum']
         monthly_stock = Stock.objects.all().filter(created_date__month=month).aggregate(Sum('quantity'))['quantity__sum']
@@ -52,6 +53,7 @@ def admin_home(request):
         daily_sell = Sell.objects.all().filter(created_date=day).aggregate(Sum('quantity'))['quantity__sum']
         monthly_sell = Sell.objects.all().filter(created_date__month=month).aggregate(Sum('quantity'))['quantity__sum']
         yearly_sell = Sell.objects.all().filter(created_date__year=year).aggregate(Sum('quantity'))['quantity__sum']
+
         context={
             "day":day,
             "month":month,
