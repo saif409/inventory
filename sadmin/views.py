@@ -44,15 +44,30 @@ def admin_home(request):
         total_user = Surveyor.objects.all().count()
         total_stock = Stock.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
         total_sell = Sell.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
-
+        if total_stock is None:
+            total_stock = 0
+        if total_sell is None:
+            total_sell = 0
         stock = int(total_stock - total_sell)
 
         daily_stock = Stock.objects.all().filter(created_date=day).aggregate(Sum('quantity'))['quantity__sum']
+        if daily_stock is None:
+            daily_stock = 0
         monthly_stock = Stock.objects.all().filter(created_date__month=month).aggregate(Sum('quantity'))['quantity__sum']
+        if monthly_stock is None:
+            monthly_stock = 0
         yearly_stock = Stock.objects.all().filter(created_date__year=year).aggregate(Sum('quantity'))['quantity__sum']
+        if yearly_stock is None:
+            yearly_stock = 0
         daily_sell = Sell.objects.all().filter(created_date=day).aggregate(Sum('quantity'))['quantity__sum']
+        if daily_sell is None:
+            daily_sell = 0
         monthly_sell = Sell.objects.all().filter(created_date__month=month).aggregate(Sum('quantity'))['quantity__sum']
+        if monthly_sell is None:
+            monthly_sell = 0
         yearly_sell = Sell.objects.all().filter(created_date__year=year).aggregate(Sum('quantity'))['quantity__sum']
+        if yearly_sell is None:
+            yearly_sell = 0
 
         context={
             "day":day,
@@ -281,7 +296,11 @@ class AddNewSells(View):
     def get(self, request):
         total_stock = Stock.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
         total_sell = Sell.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
-        stock = total_stock - total_sell
+        if total_stock is None:
+            total_stock = 0
+        if total_sell is None:
+            total_sell = 0
+        stock = int (total_stock - total_sell)
         context={
             "isact_addnewsells":"active",
             "stock":stock
@@ -291,12 +310,14 @@ class AddNewSells(View):
     def post(self,request):
         total_stock = Stock.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
         total_sell = Sell.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
-        stock = total_stock - total_sell
+        if total_stock is None:
+            total_stock = 0
+        if total_stock is None:
+            total_sell = 0
+        stock = int (total_stock - total_sell)
         product_name = request.POST.get("product_name")
         buy_price = request.POST.get("buy_price")
         quantity = request.POST.get("quantity")
-
-
         sell_price = request.POST.get("sell_price")
         note = request.POST.get("note")
         user = request.user
