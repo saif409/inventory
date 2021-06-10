@@ -312,7 +312,7 @@ class AddNewSells(View):
         total_sell = Sell.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
         if total_stock is None:
             total_stock = 0
-        if total_stock is None:
+        if total_sell is None:
             total_sell = 0
         stock = int (total_stock - total_sell)
         product_name = request.POST.get("product_name")
