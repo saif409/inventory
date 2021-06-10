@@ -88,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'db_inventory',
         'USER': 'saif',
-        'PASSWORD': 'wf6e4b3v',
+        'PASSWORD': 'saif@inventory',
         'HOST': 'localhost',
         'PORT': '',
     }
