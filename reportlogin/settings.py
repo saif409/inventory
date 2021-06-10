@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'reportlogin.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db_inventory',
-        'USER': 'saif',
-        'PASSWORD': 'saif@inventory',
+        'NAME': 'inventory',
+        'USER': 'shuvo',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '',
     }
