@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
@@ -9,6 +10,7 @@ from .models import Surveyor, Stock, Sell, Notification
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
+from .utils import today,current_month,current_year
 
 # Create your views here.
 
@@ -36,11 +38,39 @@ def user_logout(request):
 
 def admin_home(request):
     if request.user.is_authenticated:
-        total_data_collector = Surveyor.objects.all().count()
+        day = today()
+        month = current_month()
+        year = current_year()
+        total_user = Surveyor.objects.all().count()
+        total_stock = Stock.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
+        total_sell = Sell.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
+        stock = total_stock - total_sell
+
+        daily_stock = Stock.objects.all().filter(created_date=day).aggregate(Sum('quantity'))['quantity__sum']
+        monthly_stock = Stock.objects.all().filter(created_date__month=month).aggregate(Sum('quantity'))['quantity__sum']
+        yearly_stock = Stock.objects.all().filter(created_date__year=year).aggregate(Sum('quantity'))['quantity__sum']
+        daily_sell = Sell.objects.all().filter(created_date=day).aggregate(Sum('quantity'))['quantity__sum']
+        monthly_sell = Sell.objects.all().filter(created_date__month=month).aggregate(Sum('quantity'))['quantity__sum']
+        yearly_sell = Sell.objects.all().filter(created_date__year=year).aggregate(Sum('quantity'))['quantity__sum']
         context={
+            "day":day,
+            "month":month,
+            "year":year,
             "isact_home":"active",
-            "total_data_collector":total_data_collector,
+            "total_user":total_user,
             "title": "Dashboard",
+            "total_stock":total_stock,
+            "total_sell":total_sell,
+            "daily_stock":daily_stock,
+            "monthly_stock": monthly_stock,
+            "yearly_stock": yearly_stock,
+            "daily_sell": daily_sell,
+            "monthly_sell": monthly_sell,
+            "yearly_sell": yearly_sell,
+            'stock':stock,
+
+
+
 
         }
         return render(request, "admin_home.html", context)
@@ -247,25 +277,40 @@ class AddNewSells(View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
+        total_stock = Stock.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
+        total_sell = Sell.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
+        stock = total_stock - total_sell
         context={
-            "isact_addnewsells":"active"
+            "isact_addnewsells":"active",
+            "stock":stock
         }
         return render(request, "sell/add_new_sells.html", context)
 
     def post(self,request):
+        total_stock = Stock.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
+        total_sell = Sell.objects.all().filter(is_delete=False).aggregate(Sum('quantity'))['quantity__sum']
+        stock = total_stock - total_sell
         product_name = request.POST.get("product_name")
         buy_price = request.POST.get("buy_price")
         quantity = request.POST.get("quantity")
+
+
         sell_price = request.POST.get("sell_price")
         note = request.POST.get("note")
         user = request.user
-        obj = Sell(product_name=product_name,note=note,quantity=quantity,buy_price=buy_price,user=user,sell_price=sell_price)
-        notification_message = ('Sell Notification from user. please check Sell.\nproduct name :' + product_name + '\nQuantity:' + quantity + '\nSell Price :' + sell_price +'\nNote:' + note )
-        noti_obj = Notification(notification_message=notification_message)
-        noti_obj.save()
-        obj.save()
-        messages.success(request, "Sells Added Successfully ")
-        return redirect('sell_list')
+        current_quantity = int(quantity)
+        if current_quantity > stock:
+            messages.warning(request, "Your current stock quantity is low please input the correct value")
+            return redirect('add_new_sells')
+        else:
+            obj = Sell(product_name=product_name,note=note,quantity=quantity,buy_price=buy_price,user=user,sell_price=sell_price)
+            notification_message = ('Sell Notification from user. please check Sell.\nproduct name :' + product_name + '\nQuantity:' + quantity + '\nSell Price :' + sell_price +'\nNote:' + note )
+            noti_obj = Notification(notification_message=notification_message)
+            noti_obj.save()
+
+            obj.save()
+            messages.success(request, "Sells Added Successfully ")
+            return redirect('sell_list')
 
 
 def sell_details(request, id):

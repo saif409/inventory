@@ -1,7 +1,7 @@
 {% extends 'header.html' %}
 {% load static %}
 {% block title %}
-    Add New Sells | Inventory Management System
+    User Update | Inventory Management System
 {% endblock %}
 {% block stylesheet %}
 
@@ -52,34 +52,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-username">Graduation Subject</label>
-                        <input type="text" name="graduation_subject" id="input-username" class="form-control" value="{{ user.graduation_subject }}">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-email">University</label>
-                        <input type="text" name="university" id="input-email" class="form-control" value="{{ user.university }}">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-username">Skills</label>
-                        <input type="text" name="Skills" class="form-control" value="{{ user.Skills }}">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-email">Experience</label>
-                        <input type="text" name="experience" class="form-control" value="{{ user.experience }}">
-                      </div>
-                    </div>
-                  </div>
+
 
                   <div class="row">
                     <div class="col-lg-6">
@@ -152,11 +125,9 @@
                                             Admin
                                           {% endifequal %}
                                           {% ifequal user.role 2 %}
-                                            Supervisor
-                                          {% endifequal %}
-                                          {% ifequal user.role 3 %}
                                             User
                                           {% endifequal %}
+
                                       </span>
                                     </h6>
 
@@ -169,15 +140,9 @@
                                         {% endifequal %}
 
                                         {% ifequal user.role 2 %}
-                                          <option value="2" selected>Supervisor</option>
+                                        <option value="2" selected>User</option>
                                         {% else %}
-                                          <option value="2">Supervisor</option>
-                                        {% endifequal %}
-
-                                        {% ifequal user.role 3 %}
-                                        <option value="3" selected>User</option>
-                                        {% else %}
-                                        <option value="3">User</option>
+                                        <option value="2">User</option>
                                         {% endifequal %}
 
                                     </select>
@@ -211,53 +176,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-country">Country</label>
-                        <input type="text" name="country" id="input-country" pattern="[A-Za-z,]{2,100}"
-                               title="Country contains only letters" class="form-control" value="{{ user.country }}">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-division">Division</label>
-                        <input type="text" name="division" id="input-division" pattern="[A-Za-z,]{2,100}"
-                               title="Division contains only letters" class="form-control" value="{{ user.division }}">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-district">District</label>
-                        <input type="text" name="district" id="input-district"  pattern="[A-Za-z,]{2,100}"
-                               title="District contains only letters" class="form-control" value="{{ user.district }}" >
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-sub-district">Sub District</label>
-                        <input type="text" name="sub_district" id="input-sub-district" pattern="[A-Za-z\d\,]{2,100}"
-                               title="Sub District contains only letters,number or periods" class="form-control"  value="{{ user.sub_district }}" >
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-area">Area</label>
-                        <input type="text" name="area" id="input-area" pattern="[A-Za-z\d\,]{2,100}"
-                               title="Area contains only letters,number or periods" class="form-control" value="{{ user.area }}" >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-username">Description</label>
-                        <input type="text" name="description" class="form-control" value="{{ user.description }}">
-                      </div>
-                    </div>
-                  </div>
+
                 </div>
 
                 <div class="col-lg-12">
