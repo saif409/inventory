@@ -34,5 +34,7 @@ urlpatterns = [
     path('add_new_sells/', views.AddNewSells.as_view(), name="add_new_sells"),
     path('sell_details/<int:id>/', views.sell_details, name="sell_details"),
     path('sell_remove/<int:id>/', views.sell_remove, name="sell_remove"),
+    path('notification_remove/<int:id>/', views.notification_remove, name="notification_remove"),
+    path('notification-list/', views.notification_list, name="notification_list"),
 
 ]

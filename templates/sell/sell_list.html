@@ -1,7 +1,14 @@
-{% include 'header.html' %}
+{% extends 'header.html' %}
 {% load static %}
+{% block title %}
+    Add New Sells | Inventory Management System
+{% endblock %}
+{% block stylesheet %}
 
-<div class="main-content" id="panel" style="margin-top:10px;">
+{% endblock %}
+{% block content %}
+
+    <div class="main-content" id="panel" style="margin-top:10px;">
     {% if messages %}
     <div class="messages" style="margin-right:32px;">
         {% for message in messages %}
@@ -78,14 +85,14 @@
 
                                     <td style="width: 10%">
                                         <div class="btn-group">
-                                            <a href="{% url 'sell_details' id=obj.id %}" style="margin-right: 5px;"><button class="btn btn-primary fa fa-eye"></button>
-                                            </a>
-                                            <a href="" style="margin-right: 5px;" data-toggle="modal" data-target="#surve_update{{obj.id}}"><button class="btn btn-info fa fa-edit"></button>
-                                            </a>
-
-                                            <a href="" data-toggle="modal" id="{{s.id}}" data-target="#surve_delete{{obj.id}}">
-                                                <button class="btn btn-danger fa fa-trash"></button>
-                                            </a>
+                                            {% if request.user.user_info.first.role == 1 %}
+                                                <a href="{% url 'sell_details' id=obj.id %}" style="margin-right: 5px;"><button class="btn btn-primary fa fa-eye"></button></a>
+                                                <a href="" style="margin-right: 5px;" data-toggle="modal" data-target="#surve_update{{obj.id}}"><button class="btn btn-info fa fa-edit"></button></a>
+                                                <a href="" data-toggle="modal" id="{{s.id}}" data-target="#surve_delete{{obj.id}}"><button class="btn btn-danger fa fa-trash"></button></a>
+                                            {% endif %}
+                                            {% if request.user.user_info.first.role == 2 %}
+                                                <a href="{% url 'sell_details' id=obj.id %}" style="margin-right: 5px;"><button class="btn btn-primary fa fa-eye"></button></a>
+                                            {% endif %}
 
                                         </div>
                                     </td>
@@ -181,14 +188,15 @@
     </div>
 </div>
 
-{% include 'footer.html' %}
-<script>
-    $(document).ready(function (){
-         $('#list').DataTable(
-             {
-                "ordering": false
-            }
-         );
-    })
-</script>
-
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function (){
+             $('#list').DataTable(
+                 {
+                    "ordering": false
+                }
+             );
+        })
+    </script>
+{% endblock %}

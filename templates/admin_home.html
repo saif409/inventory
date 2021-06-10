@@ -1,169 +1,216 @@
-{% include 'header.html' %}
+{% extends 'header.html' %}
 {% load static %}
-{% if messages %}
+{% block title %}
+    Admin Dashboard | Firuz Mortuz Hospital
+{% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+    {% if messages %}
     <div class="messages" style="margin-right:32px;">
-    {% for message in messages %}
-        <div class="alert alert-primary" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
-    {% endfor %}
+        {% for message in messages %}
+            <div class="alert alert-primary" {% if message.tags %}
+                 class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
     </div>
 {% endif %}
 
 <div class="row" style="margin-top:40px;">
     <div class="col-lg-4">
-        <a href="{% url 'admin_home' %}">
-            <div class="widget style1 navy-bg">
-                <div class="row">
-                    <div class="col-4">
-                        <i class="fa fa-briefcase fa-5x"></i>
-                    </div>
-                    <div class="col-8 text-right">
-                        <span> Total Assign Data Collector</span>
-                        <h2 class="font-bold">{{ total_assign_data_collector }}</h2>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </div>
-
-    <div class="col-lg-4">
-        <a href="{% url 'surveyor_list' filter='None' %}">
-        <div class="widget style1 lazur-bg">
+        <div class="widget style1 navy-bg">
             <div class="row">
                 <div class="col-4">
                     <i class="fa fa-users fa-5x"></i>
                 </div>
                 <div class="col-8 text-right">
-                    <span>Total Data Collector Created</span>
-                    <h2 class="font-bold">{{ total_data_collector }}</h2>
+                    <span>Total User</span>
+                    <h2 class="font-bold">{{total_doctor}}</h2>
                 </div>
             </div>
         </div>
-        </a>
     </div>
-
     <div class="col-lg-4">
-        <a href="">
+        <div class="widget style1 lazur-bg">
+            <div class="row">
+                <div class="col-4">
+                    <i class="fa fa-indent fa-5x"></i>
+                </div>
+                <div class="col-8 text-right">
+                    <span>Total Stock</span>
+                    <h2 class="font-bold">{{total_employee}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
         <div class="widget style1 yellow-bg">
             <div class="row">
                 <div class="col-4">
-                    <i class="fa fa-envelope-o fa-5x"></i>
+                    <i class="fa fa-sellsy fa-5x"></i>
                 </div>
                 <div class="col-8 text-right">
-                    <span> Total Data Received </span>
-                    <h2 class="font-bold">{{ total_data_collect }}</h2>
+                    <span>Total Sells</span>
+                    <h2 class="font-bold">{{ total_admitted_patient }}</h2>
                 </div>
             </div>
         </div>
-        </a>
     </div>
-
-
-
-    <!--<div class="col-lg-4">-->
-        <!--<div class="widget style1 purple-bg">-->
-            <!--<div class="row">-->
-                <!--<div class="col-4">-->
-                    <!--<i class="fa fa-book fa-5x"></i>-->
-                <!--</div>-->
-                <!--<div class="col-8 text-right">-->
-                    <!--<span> Total Form Question Created</span>-->
-                    <!--<h2 class="font-bold">100</h2>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
 </div>
-
-
 <div class="row">
-    <div class="row container-fluid" style="margin-top:30px;">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row align-items-center">
-                        <h2 class="text-blod" style="padding-left:20px;">Recently Assigned Task</h2>
+    <div class="col-lg-4">
+        <div class="card">
+            <h5 class="card-header bg-danger">দৈনিক আয় / ব্যয়</h5>
+            <div class="card-body">
+                <h2 class="text-center text-success">{{ day }}</h2>
+                <hr style="background-color: red;">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <h5 class="card-title">আয়ের পরিমান {{ daily_income }} /- </h5>
+                        <h5 class="card-title">ব্যয় এর পরিমান {{daily_expense}}/-</h5>
+                        <h5 class="card-title">সর্বমোট আয় {{ total_income_daily }}/-</h5>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="{% static 'img/unnamed.jpg' %}" alt="" class="img-fluid">
                     </div>
                 </div>
-                <div class="container-fluid" style="margin-top:30px;">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <h5 class="card-header bg-danger">মাসিক আয় / ব্যয়</h5>
+            <div class="card-body">
+                <h2 class="text-center text-success">{{ month }}</h2>
+                <hr style="background-color: red;">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <h5 class="card-title">আয়ের পরিমান {{  total_monthly_income }} /- </h5>
+                        <h5 class="card-title">ব্যয় এর পরিমান {{ total_monthly_expense }}/-</h5>
+                        <h5 class="card-title">সর্বমোট আয় {{ monthly_profit }} /-</h5>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="{% static 'img/unnamed.jpg' %}" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <h5 class="card-header bg-danger">বাৎসরিক আয় / ব্যয়</h5>
+            <div class="card-body">
+                <h2 class="text-center text-success">{{ year }}</h2>
+                <hr style="background-color: red;">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <h5 class="card-title">আয়ের পরিমান {{ total_yearly_income }} /- </h5>
+                        <h5 class="card-title">ব্যয় এর পরিমান {{ total_yearly_expense }}/-</h5>
+                        <h5 class="card-title">সর্বমোট আয় {{ yearly_profit }}/-</h5>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="{% static 'img/unnamed.jpg' %}" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-12">
+            <div class="card mt-3">
+                <div class="card-header bg-primary">
+                    <div class="row align-items-center">
+                        <h4 class="text-blod" style="padding-left:20px;">দৈনিক রোগীর তালিকা</h4>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="col-md-12 mt-2 mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-12">
+                                <div class="col-lg-offset-6">
+                                    <a class="btn btn-info btn-sm float-right" href="">
+                                        <i class="fa fa-plus-circle"></i>&nbsp;নতুন যোগ করুন</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
-                        <table class="table align-items-center table-flush" id="adminHome">
-                            <thead class="widget style1 navy-bg">
-                           <tr>
-                                    <th>SL</th>
-                                    <th>Company Name</th>
-                                    <th>Purpose Of Visit</th>
-                                    <th>Assign By</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-
-                            {% for data in data %}
-                                <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td><a href="" class="h6">{{ data.company_name }}</a> <br/>
-                                    <small style="color:#fff;background-color:#e8583f;border-radius: 10px;padding-left:5px;padding-right:5px;">{{ data.created_at }}</small>
-                                </td>
-                                <td>{{ data.service_category.name }}<br/>
-                                    <small>{{ data.address }}</small>
-
-                                </td>
-                                <td>{{ data.data_collector.user.username }}<br/>
-                                    <small>Assign By {{ data.assign_by }}</small>
-                                </td>
-                                <td>
-
-                                    <a href="{% url 'view_form' id=data.id %}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
-                                    {% if request.user.is_superuser %}
-                                        <a href="{% url 'form_delete' id=data.id %}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                                    {% endif %}
-                                </td>
-
-
+                        <table class="table table-bordered align-items-center table-flush" id="adminHome">
+                            <thead class="thead-light">
+                            <tr>
+                                <th data-sort="name">ক্রমিক নং</th>
+                                <th data-sort="name">রোগীর নাম</th>
+                                <th data-sort="name">মোবাইল নাম্বার</th>
+                                <th>কর্ম</th>
                             </tr>
+                            </thead>
+                            <tbody class="list">
+
+                            {% for p in patient %}
+
+                                <tr>
+                                    <th scope="row"><span class="name mb-0 text-sm">{{ forloop.counter }}</span></th>
+                                    <td>
+                                        <span class="status">{{ p.name }}</span><br>
+                                        <small>{{ p.address }}</small>
+                                    </td>
+                                    <td>
+                                        <span class="status">{{ p.phone }}</span><br>
+                                        <small>{{ p.created_at }}</small>
+                                    </td>
+
+                                    <td style="width: 10%">
+                                        <div class="btn-group">
+                                            <a href="" data-toggle="modal" id="{{ p.id }}"
+                                               data-target="#surve_delete{{ p.id }}">
+                                                <button class="btn btn-danger fa fa-trash"></button>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="surve_delete{{ p.id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">আপনি কি রোগীটিকে মুছে ফেলতে চাচ্ছেন?</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">{{ p.name }}</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-danger" type="button" data-dismiss="modal">বাদ দিন</button>
+                                                <a class="btn btn-primary" href="{% url 'remove_daily_patient' id=p.id %}">নিশ্চিত করুন</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             {% endfor %}
-
-
+                            </tbody>
                         </table>
                     </div>
                 </div>
-{#                <div class="card-footer py-4" style="margin-top:30px;">#}
-{#                      <nav aria-label="...">#}
-{#                         <div class="col-lg-offset-9">#}
-{#                            <div class="pagination">#}
-{#                                <span class="step-links">#}
-{#                                    {% if data.has_previous %}#}
-{#                                        <a href="?page=1">&laquo; first || </a>#}
-{#                                        <a href="?page={{ data.previous_page_number }}">previous</a>#}
-{#                                    {% endif %}#}
-{#                                    <span class="current">#}
-{#                                        Page {{ data.number }} of {{ data.paginator.num_pages }}.#}
-{#                                    </span>#}
-{#                                    {% if data.has_next %}#}
-{#                                        <a href="?page={{ data.next_page_number }}">next ||</a>#}
-{#                                        <a href="?page={{ data.paginator.num_pages }}">last &raquo;</a>#}
-{#                                    {% endif %}#}
-{#                                </span>#}
-{#                             </div>#}
-{#                          </div>#}
-{#                      </nav>#}
-{#                    </div>#}
-
             </div>
         </div>
-    </div>
 </div>
 
-
-
-{% include 'footer.html' %}
-
-<script>
-    $(document).ready(function (){
-         $('#adminHome').DataTable(
-            { language: {
-                searchPlaceholder: "Search records",
-                search: "",
-              }
-        })
+{% endblock %}
+{% block script %}
+    <script>
+    $(document).ready(function () {
+        $('#adminHome').DataTable(
+            {
+                "ordering":false
+            }
+        )
     })
 </script>
+{% endblock %}
+
+

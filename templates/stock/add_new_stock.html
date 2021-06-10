@@ -1,7 +1,14 @@
-{% include 'header.html' %}
+{% extends 'header.html' %}
 {% load static %}
+{% block title %}
+    Add New Stock | Inventory Management System
+{% endblock %}
+{% block stylesheet %}
 
-<div class="main-content" id="panel" style="margin-top:10px;">
+{% endblock %}
+{% block content %}
+
+    <div class="main-content" id="panel" style="margin-top:10px;">
     {% if messages %}
     <div class="messages" style="margin-right:32px;">
         {% for message in messages %}
@@ -60,5 +67,7 @@
     </div>
 </div>
 
-{% include 'footer.html' %}
+{% endblock %}
+{% block script %}
 
+{% endblock %}

@@ -1,7 +1,14 @@
-{% include 'header.html' %}
+{% extends 'header.html' %}
 {% load static %}
+{% block title %}
+    Add New Sells | Inventory Management System
+{% endblock %}
+{% block stylesheet %}
 
-<div class="main-content" id="panel" style="margin-top:10px;">
+{% endblock %}
+{% block content %}
+
+     <div class="main-content" id="panel" style="margin-top:10px;">
  {% if messages %}
     <div class="messages" style="margin-right:32px;">
     {% for message in messages %}
@@ -60,7 +67,7 @@
                                 <tr>
                                     <th scope="row"><span class="name mb-0 text-sm">{{ forloop.counter }}</span></th>
                                     <td>
-                                        <span class="status">{{ user.user.first_name }} {{ user.user.last_name }}</span><br>
+                                        <span class="status">{{ user.user.username }}</span><br>
                                         <small style="color:#fff;background-color:#e8583f;border-radius: 10px;padding-left:5px;padding-right:5px;">{{ user.created_at }}</small>
                                     </td>
                                      <td>
@@ -142,9 +149,9 @@
 </div>
 </div>
 
-{% include 'footer.html' %}
-
-<script>
+{% endblock %}
+{% block script %}
+    <script>
     $(document).ready(function (){
          $('#surveyorList').DataTable(
             {
@@ -180,3 +187,4 @@
         });
     })
 </script>
+{% endblock %}

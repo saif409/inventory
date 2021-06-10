@@ -1,7 +1,12 @@
-{% include 'header.html' %}
+{% extends 'header.html' %}
 {% load static %}
-
-<div class="main-content" id="panel" style="margin-top:10px;">
+{% block title %}
+    Stock List | Inventory Management System
+{% endblock %}
+{% block stylesheet %}
+{% endblock %}
+{% block content %}
+    <div class="main-content" id="panel" style="margin-top:10px;">
     {% if messages %}
     <div class="messages" style="margin-right:32px;">
         {% for message in messages %}
@@ -226,15 +231,15 @@
         </div>
     </div>
 </div>
-
-{% include 'footer.html' %}
-
-<script>
-    $(document).ready(function (){
-         $('#surveyorList').DataTable(
-             {
-                "ordering": false
-            }
-         );
-    })
-</script>
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function (){
+             $('#surveyorList').DataTable(
+                 {
+                    "ordering": false
+                }
+             );
+        })
+    </script>
+{% endblock %}

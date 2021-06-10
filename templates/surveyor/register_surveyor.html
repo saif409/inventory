@@ -1,8 +1,14 @@
-{% include 'header.html' %}
+{% extends 'header.html' %}
 {% load static %}
+{% block title %}
+    Add New Sells | Inventory Management System
+{% endblock %}
+{% block stylesheet %}
 
+{% endblock %}
+{% block content %}
 
- <div class="main-content" id="panel" style="margin-top:40px;">
+     <div class="main-content" id="panel" style="margin-top:40px;">
      {% if messages %}
         <div class="messages" style="margin:20px;">
             {% for message in messages %}
@@ -99,35 +105,7 @@
                         </div>
                       </div>
 
-                     <div class="row">
-                        <div class="col-lg-6">
-                          <div class="form-group">
-                            <label class="form-control-label" >Graduation Subject&nbsp;<span style="color:red;">*</span></label>
-                            <input type="text" name="graduation_subject" class="form-control" placeholder="Graduation Subject" required >
-                          </div>
-                        </div>
-                        <div class="col-lg-6">
-                          <div class="form-group">
-                            <label class="form-control-label" >University&nbsp;<span style="color:red;">*</span></label>
-                            <input type="text" name="university" class="form-control"  required>
-                          </div>
-                        </div>
-                      </div>
 
-                    <div class="row">
-                        <div class="col-lg-6">
-                          <div class="form-group">
-                            <label class="form-control-label" >Description&nbsp;<span style="color:red;">*</span></label>
-                            <textarea name="description" id="" cols="30" rows="1" class="form-control"></textarea>
-                          </div>
-                        </div>
-                        <div class="col-lg-6">
-                          <div class="form-group">
-                            <label class="form-control-label" >Experience&nbsp;<span style="color:red;">*</span></label>
-                            <input type="text" name="experience" class="form-control" placeholder="Experience" required>
-                          </div>
-                        </div>
-                      </div>
                   </div>
 
                 <hr class="my-4" />
@@ -140,45 +118,6 @@
                         <label class="form-control-label" for="input-address">Address&nbsp;<span style="color:red;">*</span></label>
                         <input id="input-address" name="address" pattern="[A-Za-z\d\,]{6,150}"
                                title="Address contains only letters,number or periods" class="form-control" type="text" placeholder="Address" required>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-country">Country&nbsp;<span style="color:red;">*</span></label>
-                        <input type="text" name="country" id="input-country" pattern="[A-Za-z,]{2,100}"
-                               title="Country contains only letters" class="form-control" placeholder="Country" required>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-division">Division&nbsp;<span style="color:red;">*</span></label>
-                        <input type="text" name="division" id="input-division" pattern="[A-Za-z,]{2,100}"
-                               title="Division contains only letters" class="form-control" placeholder="Division" required>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-district">District&nbsp;<span style="color:red;">*</span></label>
-                        <input type="text" name="district" id="input-district" pattern="[A-Za-z,]{2,100}"
-                               title="District contains only letters" class="form-control" placeholder="District" required >
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-sub-district">Sub District&nbsp;<span style="color:red;">*</span></label>
-                        <input type="text" name="sub_district" id="input-sub-district" pattern="[A-Za-z\d\,]{2,100}"
-                               title="Sub District contains only letters,number or periods" class="form-control" placeholder="Sub District" required >
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-area">Area&nbsp;<span style="color:red;">*</span></label>
-                        <input type="text" name="area" id="input-area" pattern="[A-Za-z\d\,]{2,100}"
-                               title="Area contains only letters,number or periods" class="form-control" placeholder="Area" required >
                       </div>
                     </div>
                   </div>
@@ -195,4 +134,7 @@
   </div>
 
 
-{% include 'footer.html' %}
+{% endblock %}
+{% block script %}
+
+{% endblock %}

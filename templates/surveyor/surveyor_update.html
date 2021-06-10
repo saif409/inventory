@@ -1,11 +1,13 @@
-{% include 'header.html' %}
+{% extends 'header.html' %}
 {% load static %}
+{% block title %}
+    Add New Sells | Inventory Management System
+{% endblock %}
+{% block stylesheet %}
 
-
-
-
-
- <div class="main-content" id="panel" style="margin-top:10px;">
+{% endblock %}
+{% block content %}
+     <div class="main-content" id="panel" style="margin-top:10px;">
      {% if messages %}
         <div class="messages" style="margin:20px;">
             {% for message in messages %}
@@ -268,6 +270,42 @@
       </div>
     </div>
   </div>
-
-
-{% include 'footer.html' %}
+{% endblock %}
+{% block script %}
+    <script>
+    $(document).ready(function (){
+         $('#surveyorList').DataTable(
+            {
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4]
+                        }
+                    },
+                ],
+                columns: [
+                    { "width": "1%" },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ]
+        });
+    })
+</script>
+{% endblock %}

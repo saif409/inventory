@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator
 from django.views import View
-from.models import Surveyor,Stock,Sell
+from .models import Surveyor, Stock, Sell, Notification
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
@@ -136,18 +136,9 @@ def register_surveyor(request):
             password = request.POST.get('password', )
             address = request.POST.get("address")
             profile_picture = request.FILES.get("profile_picture")
-            country = request.POST.get("country")
-            division = request.POST.get("division")
-            district = request.POST.get("district")
-            sub_district = request.POST.get("sub_district")
             email = request.POST.get("email")
-            area = request.POST.get("area")
             phone = request.POST.get("phone")
             designation = request.POST.get("designation")
-            experience = request.POST.get("experience")
-            description = request.POST.get("description")
-            graduation_subject = request.POST.get("graduation_subject")
-            university = request.POST.get("university")
             user = User.objects.all().filter(username=uname)
             if user :
                 messages.success(request, "User Already Exits")
@@ -161,8 +152,7 @@ def register_surveyor(request):
                 }
                 user = User(**auth_info)
                 user.save()
-            user_obj = Surveyor(experience=experience,university=university,description=description,graduation_subject=graduation_subject,user=user,address=address,profile_picture=profile_picture,country=country,division=division,
-                                district=district,sub_district=sub_district,email=email,area=area,
+            user_obj = Surveyor(user=user,address=address,profile_picture=profile_picture,email=email,
                                 phone=phone,designation=designation)
             user_obj.save()
             messages.success(request, "Data Collector Create Successfully !!")
@@ -207,8 +197,12 @@ class AddNewStock(View):
         product_name = request.POST.get("product_name")
         quantity = request.POST.get("quantity")
         unit_price = request.POST.get("unit_price")
-        user = request.user
-        obj = Stock(product_name=product_name,quantity=quantity,unit_price=unit_price,user=user)
+        user_name = request.user
+        obj = Stock(product_name=product_name,quantity=quantity,unit_price=unit_price,user=user_name)
+        notification_message = ('New Stock Notification from user. please check stock.\nproduct name :'+product_name + '\nQuantity:' + quantity + '\nUnit Price :' + unit_price)
+
+        noti_obj = Notification(notification_message=notification_message)
+        noti_obj.save()
         obj.save()
         messages.success(request, "Stock Added Successfully ")
         return redirect('stock_list')
@@ -266,6 +260,9 @@ class AddNewSells(View):
         note = request.POST.get("note")
         user = request.user
         obj = Sell(product_name=product_name,note=note,quantity=quantity,buy_price=buy_price,user=user,sell_price=sell_price)
+        notification_message = ('Sell Notification from user. please check Sell.\nproduct name :' + product_name + '\nQuantity:' + quantity + '\nSell Price :' + sell_price +'\nNote:' + note )
+        noti_obj = Notification(notification_message=notification_message)
+        noti_obj.save()
         obj.save()
         messages.success(request, "Sells Added Successfully ")
         return redirect('sell_list')
@@ -277,3 +274,18 @@ def sell_details(request, id):
         "obj":obj
     }
     return render(request, "sell/sell_view.html", context)
+
+
+def notification_list(request):
+    noti_obj = Notification.objects.all()[::-1]
+    context={
+        "notification":noti_obj,
+        "isact_notifications": "active"
+    }
+    return render(request, 'notification/notification_list.html', context)
+
+
+def notification_remove(request, id):
+    obj = get_object_or_404(Notification, id=id)
+    obj.delete()
+    return redirect('notification_list')
