@@ -29,7 +29,7 @@ STATUS_CHOICES = (
 class Surveyor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,  related_name='user_info')
     address = models.CharField(max_length=200)
-    profile_picture = models.ImageField()
+    profile_picture = models.ImageField(blank=True, null=True)
     email = models.CharField(max_length=100,null=True, blank=True)
     phone = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
@@ -89,3 +89,25 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.notification_message
+
+
+class Cost(models.Model):
+    amount = models.IntegerField()
+    purpose = models.CharField(max_length=500)
+    created_by = models.CharField(max_length=200)
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.created_by
+
+
+
+
+
+
+
+
+
+
+
+

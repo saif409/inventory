@@ -1,0 +1,79 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block title %}
+    Cost List| Inventory Management System
+{% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+
+    <div class="main-content" id="panel" style="margin-top:10px;">
+        {% if messages %}
+            <div class="messages" style="margin-right:32px;">
+                {% for message in messages %}
+                    <div class="alert alert-primary" {% if message.tags %}
+                         class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <div class="row align-items-center">
+                        <h4 class="text-blod" style="padding-left:20px;">Update Cost</h4>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-name">Name&nbsp;<span
+                                                style="color:red;">*</span></label>
+                                        <input type="text" name="name" id="input-name" class="form-control"
+                                               placeholder="name" value="{{ obj.created_by }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Purpose&nbsp;<span
+                                                style="color:red;">*</span></label>
+                                        <input type="text" name="purpose" class="form-control" value="{{ obj.purpose }}" required>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-amount">Amount&nbsp;<span
+                                                style="color:red;">*</span></label>
+                                        <input type="number" name="amount" id="input-amount" class="form-control"
+                                               placeholder="Enter amount" value="{{ obj.amount }}" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary float-right" type="submit" style="">Update</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+
+{% endblock %}

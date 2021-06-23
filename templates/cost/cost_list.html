@@ -1,0 +1,134 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block title %}
+    Cost List | Inventory Management System
+{% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+{% block content %}
+
+    <div class="main-content" id="panel" style="margin-top:10px;">
+        {% if messages %}
+            <div class="messages" style="margin-right:32px;">
+                {% for message in messages %}
+                    <div class="alert alert-primary" {% if message.tags %}
+                         class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <a href="{% url 'add_new_cost' %}"><button class="btn btn-primary float-right">Add New Cost</button></a>
+        </div>
+    </div>
+
+
+        <div class="row">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header bg-primary">
+                            <div class="row align-items-center">
+                                <h4 class="text-blod" style="padding-left:20px;">Added Cost List</h4>
+                            </div>
+
+                        </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush" id="surveyorList">
+                                <thead class="style1 navy-bg">
+                                <tr>
+                                    <th data-sort="name">Sl no</th>
+                                    <th data-sort="name">Name</th>
+                                    <th data-sort="name">Purpose</th>
+                                    <th data-sort="name">Amount</th>
+                                    <th data-sort="name">Created Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="list">
+
+                                {% for c in cost %}
+                                    <tr>
+                                        <th scope="row"><span class="name mb-0 text-sm">{{ forloop.counter }}</span>
+                                        </th>
+                                        <td>
+                                            <span class="status">{{ c.created_by }}</span><br>
+
+                                        </td>
+                                        <td>
+                                            <span class="status">{{ c.purpose }}</span><br>
+                                        </td>
+                                        <td>
+                                            <span class="status">{{ c.amount }}</span><br>
+                                        </td>
+                                        <td>
+                                            <span class="status">{{ c.created_at }}</span>
+
+                                        </td>
+
+                                        <td style="width: 10%">
+                                            <div class="btn-group">
+
+                                                {% if request.user.is_superuser %}
+                                                    <a href="{% url 'cost_update' id=c.id %}" style="margin-right: 5px;">
+                                                        <button class="btn btn-info fa fa-edit"></button>
+                                                    </a>
+                                                    <a href="" data-toggle="modal" id="{{ c.id }}"
+                                                       data-target="#surve_delete{{ c.id }}">
+                                                        <button class="btn btn-danger fa fa-trash"></button>
+                                                    </a>
+                                                {% endif %}
+                                                {% if request.user.user_info.first.role == 1 %}
+                                                    <a href="{% url 'cost_update' id=c.id %}" style="margin-right: 5px;">
+                                                        <button class="btn btn-info fa fa-edit"></button>
+                                                    </a>
+                                                    <a href="" data-toggle="modal" id="{{ c.id }}"
+                                                       data-target="#surve_delete{{ c.id }}">
+                                                        <button class="btn btn-danger fa fa-trash"></button>
+                                                    </a>
+
+                                                {% endif %}
+                                            <div class="modal fade" id="surve_delete{{ c.id }}" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Are You Sure To
+                                                        Delete The Following Cost Item?</h5>
+                                                    <button class="close" type="button" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">{{ c.created_by }}<br> {{ c.created_at }}</div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-danger" type="button"
+                                                            data-dismiss="modal">Cancel
+                                                    </button>
+                                                    <a class="btn btn-primary" href="{% url 'cost_remove' id=c.id %}">Confirm Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+{% block script %}
+
+{% endblock %}

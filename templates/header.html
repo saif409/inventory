@@ -34,6 +34,46 @@
                             </a>
                         </div>
                     </li>
+                {% if request.user.is_superuser %}
+                        <li class="dashboard {{ isact_home }}" >
+                            <a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>
+                        </li>
+                        <li class="surveyorlist {{ isact_surveyorlist }}">
+                            <a href="{% url 'surveyor_list' filter='None' %}"><i class="fa fa-list"></i> <span class="nav-label">All User</span></a>
+                        </li>
+                        <li class="createsurvey {{ isact_registersurveyor }}">
+                            <a href="{% url 'register_surveyor' %}"><i class="fa fa-user-plus"></i> <span class="nav-label">Add New User</span></a>
+                        </li>
+                        <li class="createsurvey {{ isact_stocklist }}">
+                            <a href="{% url 'stock_list' %}"><i class="fa fa-list"></i> <span class="nav-label">Stock List</span></a>
+                        </li>
+
+                        <li class="createsurvey {{ isact_addnewstock }}">
+                            <a href="{% url 'add_new_stock' %}"><i class="fa fa-plus-circle"></i> <span class="nav-label">Add New Stock</span></a>
+                        </li>
+
+
+                        <li class="createsurvey {{ isact_sellslist }}">
+                            <a href="{% url 'sell_list' %}"><i class="fa fa-list"></i> <span class="nav-label">Sells List</span></a>
+                        </li>
+
+                        <li class="createsurvey {{ isact_addnewsells }}">
+                            <a href="{% url 'add_new_sells' %}"><i class="fa fa-list"></i> <span class="nav-label">Add New Sells</span></a>
+                        </li>
+
+                        <li class="createsurvey {{ isact_cost }}">
+                            <a href="{% url 'cost_list' %}"><i class="fa fa-money"></i> <span class="nav-label">Cost</span></a>
+                        </li>
+
+                        <li class="createsurvey {{ isact_notifications }}">
+                            <a href="{% url 'notification_list' %}"><i class="fa fa-bell"></i> <span class="nav-label">Notifications</span></a>
+                        </li>
+
+
+                    {% endif %}
+
+
+
                     {% if request.user.user_info.first.role == 1 %}
                         <li class="dashboard {{ isact_home }}" >
                             <a href="{% url 'admin_home' %}"><i class="fa fa-home"></i> <span class="nav-label">Home</span></a>

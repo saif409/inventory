@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator
 from django.views import View
-from .models import Surveyor, Stock, Sell, Notification
+from .models import Surveyor, Stock, Sell, Notification, Cost
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.core.mail import send_mail
@@ -357,3 +357,50 @@ def notification_remove(request, id):
     obj = get_object_or_404(Notification, id=id)
     obj.delete()
     return redirect('notification_list')
+
+
+def cost_list(request):
+    cost_obj = Cost.objects.all()[::-1]
+    context={
+        "isact_cost":"active",
+        "cost":cost_obj
+    }
+    return render(request, "cost/cost_list.html", context)
+
+
+def add_new_cost(request):
+    context = {
+        "isact_cost": "active",
+    }
+    if request.method == "POST":
+        name = request.POST.get("name")
+        purpose = request.POST.get("purpose")
+        amount = request.POST.get("amount")
+        amount_obj = Cost(created_by=name, purpose=purpose,amount=amount)
+        amount_obj.save()
+        messages.success(request, "Cost item created successfully !!")
+        return redirect('cost_list')
+    return render(request, "cost/add_new_cost.html", context)
+
+
+def cost_update(request, id):
+    obj = get_object_or_404(Cost, id=id)
+    context={
+        "obj":obj
+    }
+    if request.method == "POST":
+        obj.name = request.POST.get("name")
+        obj.purpose = request.POST.get("purpose")
+        obj.amount = request.POST.get("amount")
+        obj.save()
+        messages.success(request, "Cost item update successfully !!")
+        return redirect('cost_list')
+
+    return render(request, "cost/cost_update.html", context)
+
+
+def cost_remove(request, id):
+    obj = get_object_or_404(Cost, id=id)
+    obj.delete()
+    messages.success(request, "Cost Item Delete Successfully !!")
+    return redirect('cost_list')

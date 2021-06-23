@@ -36,5 +36,9 @@ urlpatterns = [
     path('sell_remove/<int:id>/', views.sell_remove, name="sell_remove"),
     path('notification_remove/<int:id>/', views.notification_remove, name="notification_remove"),
     path('notification-list/', views.notification_list, name="notification_list"),
+    path('cost-list/', views.cost_list, name="cost_list"),
+    path('add-new-cost/', views.add_new_cost, name="add_new_cost"),
+    path('cost-remove/<int:id>/', views.cost_remove, name="cost_remove"),
+    path('cost-update/<int:id>/', views.cost_update, name="cost_update"),
 
 ]
